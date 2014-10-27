@@ -2,7 +2,7 @@
 setwd(".")
 activity_Labels_Url = "../UCI HAR Dataset/activity_labels.txt"
 activity_Labels = read.table(activity_Labels_Url, header = FALSE)
-names(activity_Labels) = c("activity_id", "activity_label")
+names(activity_Labels) = c("activity_id", "activity")
 activity_Labels$activity_id = factor(activity_Labels$activity_id)
 rm(activity_Labels_Url)
 
@@ -71,16 +71,17 @@ activitiesFeatures = cbind(Y, X)
 interestingFeaturesIndices=interestingFeaturesIndices+1
 interestingFeaturesIndices=c(1,interestingFeaturesIndices)
 activitiesFeatures = activitiesFeatures[,interestingFeaturesIndices]
-variablesLabels = c("activity", variablesLabels)
+variablesLabels = c("activity_id", variablesLabels)
 names(activitiesFeatures) = variablesLabels
 
-
-activitiesComplete = activitiesFeatures
+temp=merge(activity_Labels, activitiesFeatures, by="activity_id")
+activitiesComplete = temp[,-(1)]
 tidyDataUrl = "GettingCleaningData_Project.TXT"
 write.table(activitiesComplete, tidyDataUrl, row.names=FALSE)
-
-
+ 
+ 
 activitesTest = read.table(tidyDataUrl, header = TRUE)
+
 # body_acc_x_train_url = "../UCI HAR Dataset/Inertial Signals/body_acc_x_train.txt"
 # body_acc_x_test_url = "../UCI HAR Dataset/Inertial Signals/body_acc_x_test.txt"
 # body_acc_x_train = read.table(body_acc_x_train_url, header=FALSE)
