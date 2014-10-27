@@ -1,2 +1,0 @@
-GettingCleaningData_Project
-===========================
